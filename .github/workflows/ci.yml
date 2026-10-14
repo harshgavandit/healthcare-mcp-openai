@@ -1,0 +1,36 @@
+name: Python checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: healthcare_mcp_server/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install -r healthcare_mcp_server/requirements.txt
+      - name: Validate dependencies
+        run: python -m pip check
+      - name: Scan tracked publication files
+        run: python scripts/check_publication.py
+      - name: Run regression tests
+        run: python -m unittest discover -s healthcare_mcp_server/tests -v
+      - name: Compile Python sources
+        run: python -m compileall -q healthcare_mcp_server scripts
+      - name: Create demonstration database
+        run: python healthcare_mcp_server/seed_data.py
+      - name: Verify HTTP MCP tools
+        run: python healthcare_mcp_server/verify.py

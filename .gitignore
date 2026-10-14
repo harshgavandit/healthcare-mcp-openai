@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+.venv/
+.tmp/
+__pycache__/
+*.py[cod]
+*.db
+*.db-*
+.DS_Store
+__MACOSX/
+verification/
+.pytest_cache/
+*.log
