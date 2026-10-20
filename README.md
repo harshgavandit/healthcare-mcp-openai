@@ -1,5 +1,7 @@
 # Healthcare MCP Server + OpenAI
 
+**Live application: [Healthcare Explorer](https://healthcare-mcp-openai.vercel.app)**
+
 ## Browser application and Vercel deployment
 
 The project includes **Healthcare Explorer**, a responsive browser interface for
