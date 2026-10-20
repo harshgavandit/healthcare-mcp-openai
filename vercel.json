@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "fastapi",
+  "functions": {
+    "app.py": {
+      "maxDuration": 120,
+      "excludeFiles": "{.venv/**,.tmp/**,.env*,verification/**,__MACOSX/**,**/*.db,healthcare_mcp_server/documentation/**,healthcare_mcp_server/tests/**}"
+    }
+  }
+}

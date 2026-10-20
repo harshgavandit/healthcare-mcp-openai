@@ -1,5 +1,46 @@
 # Healthcare MCP Server + OpenAI
 
+## Browser application and Vercel deployment
+
+The project includes **Healthcare Explorer**, a responsive browser interface for
+the patient directory, risk summaries, readmission indicators, database schema,
+and an OpenAI assistant. The original CLI and local MCP server remain available.
+
+To run the web application locally:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn app:app --host 127.0.0.1 --port 8000
+```
+
+Open `http://127.0.0.1:8000`. The web entrypoint generates a separate temporary
+database from the illustrative seed definitions. It never opens the local
+`healthcare_mcp_server/patients.db`, and it needs no manual seed step. This data is
+read only during use and is recreated on a new runtime instance.
+
+The browser's AI assistant requires `OPENAI_API_KEY`, `LLM_MODEL`, and a private
+`DEMO_ACCESS_CODE` in the environment. Enter the access code in the AI assistant
+panel. It is sent in a request header, is not stored in browser storage, and is
+never included in public responses. The directory and schema work without it.
+
+For Vercel, import this repository with the **FastAPI** framework preset and the
+repository root as the root directory. Root `app.py`, `requirements.txt`,
+`.python-version`, and `vercel.json` configure the deployment. Save the OpenAI key
+and access code as Secret environment variables, select `gpt-4o-mini` for
+`LLM_MODEL`, and deploy. `.vercelignore` excludes local databases, `.env`, the
+virtual environment, and runtime reports from source uploads. Never upload real
+patient data. The deployed `/mcp` endpoint uses stateless JSON HTTP responses so
+clients do not depend on a particular function instance.
+
+The app exposes `/api/health`, `/api/patients`, `/api/patients/{id}`,
+`/api/schema`, `/api/ask`, and `/mcp`. Billable questions are access-code protected
+and bounded to 1,000 input characters and 100 seconds overall; the code is not a
+replacement for full user accounts or distributed rate limiting.
+
+GitHub Actions installs the root requirements and exercises the web APIs and
+stateless MCP protocol alongside the original workflow tests. For local testing,
+use the root requirements to include the web dependency.
+
 A Python demonstration of connecting an OpenAI tool-calling client to a
 **Model Context Protocol (MCP)** server over **Streamable HTTP**. Ask questions
 in natural language; the client discovers the available tools, lets the model

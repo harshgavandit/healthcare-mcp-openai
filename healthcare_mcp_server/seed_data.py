@@ -297,12 +297,12 @@ LAB_RESULTS = [
 ]
 
 
-def seed():
+def seed(database_path=None):
     """Main function to insert all sample data into the database."""
     # Ensure tables exist
-    create_tables()
+    create_tables(path=database_path)
 
-    conn = get_connection()
+    conn = get_connection(path=database_path)
     cursor = conn.cursor()
 
     # Clear existing data so we can re-run the script safely
@@ -368,7 +368,7 @@ def seed():
     conn.close()
 
     # Quick verification print
-    conn2 = get_connection()
+    conn2 = get_connection(path=database_path)
     cur2 = conn2.cursor()
     print("=== Seed complete. Row counts ===")
     for table in ["patients", "visits", "diagnoses", "medications", "lab_results"]:

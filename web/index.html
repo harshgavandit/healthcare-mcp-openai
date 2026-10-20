@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Explore a synthetic healthcare dataset with read-only MCP tools and an OpenAI assistant.">
+  <title>Healthcare Explorer · MCP Demo</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%232563eb'/%3E%3Cpath d='M24 12v24M12 24h24' stroke='white' stroke-width='6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/assets/style.css"><script src="/assets/app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Healthcare Explorer home"><span class="brand-icon">+</span><span>Healthcare<span class="brand-sub">EXPLORER</span></span></a>
+    <div class="workspace"><span class="workspace-dot"></span> Demonstration workspace</div>
+    <p class="nav-label">WORKSPACE</p>
+    <nav aria-label="Main navigation">
+      <button class="nav-item active" data-panel="explorer" aria-selected="true"><span aria-hidden="true">▦</span> Patient explorer</button>
+      <button class="nav-item" data-panel="assistant" aria-selected="false"><span aria-hidden="true">✧</span> AI assistant</button>
+      <button class="nav-item" data-panel="schema" aria-selected="false"><span aria-hidden="true">▤</span> Database schema</button>
+    </nav>
+    <div class="sidebar-note"><span class="note-icon">i</span><strong>A space to explore</strong><p>Every record in this workspace is generated demo data. No real patient information is hosted here.</p></div>
+    <div class="sidebar-bottom"><a href="https://github.com/harshgavandit/healthcare-mcp-openai" target="_blank" rel="noopener noreferrer">View project on GitHub <span>↗</span></a><span class="powered">Python · MCP · OpenAI</span></div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar"><span>Workspace <span class="slash">/</span> <strong id="breadcrumb">Patient explorer</strong></span><span class="status"><span></span><span id="connection">Connecting</span></span></header>
+    <main>
+      <div class="page-heading"><div><div class="eyebrow">HEALTHCARE MCP DEMO</div><h1 id="page-title">Patient explorer</h1><p id="page-description">A clearer view of the records, signals, and stories in your demo dataset.</p></div><span class="demo-badge">SYNTHETIC DATA</span></div>
+      <div id="global-error" class="error" role="alert" hidden></div>
+      <section id="explorer" class="panel" aria-label="Patient explorer">
+        <div class="stats"><article class="stat"><span class="stat-label">Demo patients</span><div><strong id="patient-count">—</strong><span class="stat-icon">♧</span></div><p>Illustrative patient profiles</p></article><article class="stat"><span class="stat-label">Recorded visits</span><div><strong id="visit-count">—</strong><span class="stat-icon">▦</span></div><p>Historical demonstration visits</p></article><article class="stat"><span class="stat-label">Available tools</span><div><strong>4</strong><span class="stat-icon">⌘</span></div><p>Connected through MCP</p></article><article class="stat"><span class="stat-label">Database access</span><div><strong class="readonly">Read only</strong><span class="stat-icon">✓</span></div><p>Explore without changing records</p></article></div>
+        <div class="explorer-grid">
+          <section class="card directory"><div class="card-heading"><h2>Patient directory</h2><span id="directory-count" class="count-badge">10</span></div><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search patients…" aria-label="Search demo patients"></div><div id="patient-list" class="patient-list" aria-label="Demo patients"><p class="loading">Loading demo records…</p></div></section>
+          <div id="patient-detail" class="detail"><div class="card empty">Select a patient to explore their profile.</div></div>
+        </div>
+      </section>
+      <section id="assistant" class="panel" aria-label="AI assistant" hidden>
+        <div class="assistant-layout"><div class="card assistant-card"><div class="assistant-intro"><span class="assistant-icon">✧</span><h2>Ask your demo data</h2><p>Explore the dataset in plain language. The assistant uses the same read-only MCP tools to ground its answers.</p></div><div class="suggestions"><button data-question="How many patients and visits are in the demo database?">Give me a dataset overview <span>↗</span></button><button data-question="Summarize the risk factors for demo patient 4 and cite the tools used.">Explore patient 4's risk factors <span>↗</span></button><button data-question="What are the readmission indicators for demo patient 1?">Explain readmission indicators <span>↗</span></button></div><form id="ask-form"><label for="access-code">AI access code <span>Required to protect API usage</span></label><input id="access-code" type="password" autocomplete="off" placeholder="Enter the project access code" required><label for="question">Your question</label><textarea id="question" rows="4" maxlength="1000" minlength="3" placeholder="What would you like to know about the demo records?" required></textarea><div class="form-bottom"><span id="model-label">gpt-4o-mini</span><button class="primary" id="ask-button" type="submit">Ask assistant <span>→</span></button></div></form><div id="answer-region" aria-live="polite" hidden><div class="answer-heading">ASSISTANT RESPONSE</div><div id="answer"></div><div id="tools-used" class="tools-used"></div></div></div><aside class="card help-card"><h2>Answers with a source</h2><p>The model requests tools, receives results, and builds an explanation from those records.</p><ol><li>Discover the available MCP tools</li><li>Read the relevant demo data</li><li>Return an answer with tool references</li></ol><div class="divider"></div><h3>Your data stays intentional</h3><p>Questions and selected demo tool results are sent to OpenAI. The access code is used only to unlock this project's AI requests.</p><p>Do not enter real medical or personal information.</p></aside></div>
+      </section>
+      <section id="schema" class="panel" aria-label="Database schema" hidden><div class="section-heading"><div><h2>Understand the dataset</h2><p>Five related tables power the four MCP tools.</p></div><code>/mcp</code></div><div id="schema-tables" class="schema-grid"></div></section>
+      <footer><span><span class="footer-dot"></span> Generated demonstration data · read-only workspace</span><span>Risk scores are illustrative heuristics, not clinical predictions.</span></footer>
+    </main>
+  </div>
+</div>
+</body></html>

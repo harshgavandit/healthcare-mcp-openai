@@ -1,0 +1,16 @@
+.git
+.env
+.env.*
+.venv
+.tmp
+.vercel
+__MACOSX
+verification
+**/__pycache__
+**/*.pyc
+**/*.db
+**/*.db-*
+**/.DS_Store
+healthcare_mcp_server/documentation
+healthcare_mcp_server/tests
+healthcare_mcp_server/requirements.lock.txt

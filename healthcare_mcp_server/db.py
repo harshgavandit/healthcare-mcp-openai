@@ -5,27 +5,27 @@ import os
 DB_PATH = os.path.join(os.path.dirname(__file__), "patients.db")
 
 
-def get_connection(read_only=False):
+def get_connection(read_only=False, path=None):
     """
     Returns a SQLite connection with row_factory set to sqlite3.Row
     so that query results can be accessed like dictionaries.
     """
     if read_only:
         from pathlib import Path
-        conn = sqlite3.connect(Path(DB_PATH).resolve().as_uri() + "?mode=ro", uri=True)
+        conn = sqlite3.connect(Path(path or DB_PATH).resolve().as_uri() + "?mode=ro", uri=True)
         conn.execute("PRAGMA query_only = ON")
     else:
-        conn = sqlite3.connect(DB_PATH)
+        conn = sqlite3.connect(path or DB_PATH)
     conn.row_factory = sqlite3.Row  # Allows accessing columns by name
     return conn
 
 
-def create_tables():
+def create_tables(path=None):
     """
     Creates all four tables in the database if they don't already exist.
     Run this once before seeding data.
     """
-    conn = get_connection()
+    conn = get_connection(path=path)
     cursor = conn.cursor()
 
     # --- Patients table: core demographic info ---

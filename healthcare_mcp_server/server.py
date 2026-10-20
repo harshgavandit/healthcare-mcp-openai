@@ -14,6 +14,8 @@ The default local endpoint is:
 from mcp.server.fastmcp import FastMCP
 from starlette.middleware.cors import CORSMiddleware
 from settings import Settings
+import os
+from mcp.server.transport_security import TransportSecuritySettings
 
 settings = Settings.load()
 
@@ -31,6 +33,14 @@ mcp = FastMCP(
     name="healthcare-mcp-server",
     host=settings.host,
     port=settings.port,
+    stateless_http=os.getenv("MCP_STATELESS_HTTP") == "1",
+    json_response=os.getenv("MCP_STATELESS_HTTP") == "1",
+    transport_security=TransportSecuritySettings(
+        allowed_hosts=["127.0.0.1:*", "localhost:*", "127.0.0.1", "localhost", "testserver"]
+        + [host for host in os.getenv("MCP_ALLOWED_HOSTS", "").split(",") if host],
+        allowed_origins=["http://127.0.0.1:*", "http://localhost:*"]
+        + [f"https://{host}" for host in os.getenv("MCP_ALLOWED_HOSTS", "").split(",") if host],
+    ),
 )
 # --------------------------------------------------------------------------
 # Tool 1A — Patient Risk Summary
